@@ -1,0 +1,49 @@
+---
+layout: compress
+---
+<html lang="{{ page.lang | default: site.lang | default: "en_US" }}">
+
+  {% include head.html %}
+
+  <body class="site">
+
+    {% if site.google_tag_manager %}
+
+      <!-- Google Tag Manager (noscript) -->
+      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ site.google_tag_manager }}"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+      <!-- End Google Tag Manager (noscript) -->
+
+    {% endif %}
+
+    {% include header.html %}
+<!-- {{site.url}}/assets/img/posts/frodo.jpg -->
+    <div class="hero lazyload" data-bg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvRH4t8CuvCtF0-2QbC8Qx_3A1iGbv0C-HAUg2T7o23JspiBqzMg">
+      <div class="hero__wrap">
+        <h1 class="hero__title">etc.</h1>
+        <p class="hero__meta">Maybe... Algorithm? Language? Yeah! etc.</p>
+      </div>
+    </div>
+
+    <main class="site__content">
+      <section class="blog">
+        <div class="container">
+          <div class="post-list" itemscope="" itemtype="http://schema.org/Blog">
+
+            {% for post in site.posts %}
+              {% if post.category == 'etc.' %}
+                {% include card.html %}
+              {% endif %}
+            {% endfor %}
+
+            <!-- {% include pagination.html %} -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    {% include footer.html %}
+
+  </body>
+
+</html>

@@ -4,6 +4,7 @@
 # Edit sleeks's default layout instead if you wanna make some changes
 # See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 #
-layout: default
-title: hwanii's blog
+layout: etc
+title: etc.
+permalink: /etc/
 ---
