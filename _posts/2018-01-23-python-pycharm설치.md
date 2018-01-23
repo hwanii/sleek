@@ -10,6 +10,7 @@ summary: Pycharm 설치 및 세팅
 JetBrain 기업이 운영하는 파이썬 IDE 중 하나
 
 ### Pycharm 설치(Ubuntu)
+
 * [JetBrain](https://www.jetbrains.com/pycharm/) 페이지에서 `Download now` 버튼 클릭
 * 대학생인 경우, 인증을 통해 유료 버전인 `Professional` 설치 가능합니다.
 * 그 외의 경우 무료버전인 `Community`버전을 다운로드 합니다.
