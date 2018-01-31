@@ -24,7 +24,7 @@ Out[4]: <Post: 기억의 빈자리>
 위와 같은 방식으로 데이터베이스에 접근 가능합니다. 위에 있는 내용은 관리자 모드를 통해 내용을 미리 임의로 입력해놓은 것입니다. 삭제나 수정 같은 다른 기능에 대해서는 다른 포스트에서 자세하게 다루겠습니다.
 
 ### template에서 데이터 동적으로 불러오기
-데이터를 이용하지 않는 정적 웹사이트와는 다르게, 회원 정보나 특정 기능을 위해 데이터가 필요한 경우 데이터베이스에 저장되어 있는 데이터를 활용해야 합니다. 이 때 django에서는 `settings.py`에 `'BACKEND': 'django.template.backends.django.DjangoTemplates'`라고 명시되어 있듯이, `DjangoTemplates`라는 것을 활용해 데이터를 동적으로 불러옵니다. 표현식을 나타낼 땐 `\{\% [내용] \%\}`와 같이 사용하고, 특정 변수를 나타낼 땐 `\{\{ [변수] \}\}`와 같은 방식으로 나타냅니다.(문서 편집을 위해 붙인 역슬래시(`\`)는 모두 제거합니다.)<br><br>
+데이터를 이용하지 않는 정적 웹사이트와는 다르게, 회원 정보나 특정 기능을 위해 데이터가 필요한 경우 데이터베이스에 저장되어 있는 데이터를 활용해야 합니다. 이 때 django에서는 `settings.py`에 `'BACKEND': 'django.template.backends.django.DjangoTemplates'`라고 명시되어 있듯이, `DjangoTemplates`라는 것을 활용해 데이터를 동적으로 불러옵니다. 표현식을 나타낼 땐 {% raw %}`{% [내용] %}`{% endraw %}와 같이 사용하고, 특정 변수를 나타낼 땐 {% raw %}`{{ [변수] }}`{% endraw %}와 같은 방식으로 나타냅니다.<br><br>
 template에서 데이터를 불러오기 위해서는 `views.py`에 있는 해당 template와 연관된 함수의 return에 context를 작성해줘야 합니다.
 #### blog/views.py
 ```python
@@ -41,6 +41,7 @@ def post_list(request):
 위에 ORM에서 예시로 봤던 `Post.objects.all()`을 통해 Post에 저장되어 있는 모든 데이터들을 불러옵니다.
 context는 딕셔너리 구조로 만들어주고, 딕셔너리의 **키 값** 은 마치 변수처럼 return에 입력한 `blog/post_list.html`에서 사용 가능합니다.
 #### templates/blog/post_list.html
+{% raw %}
 ```html
 <!doctype html>
 <html lang="en">
@@ -56,17 +57,18 @@ context는 딕셔너리 구조로 만들어주고, 딕셔너리의 **키 값** �
         <h1><a href="">Django Girls Blog</a></h1>
     </div>
     <!-- 역슬래시(\)는 모두 제거할 것 -->
-    \{\% for post in posts \%\}
+    {% for post in posts %}
     <div>
-        <p>\{\{ post.published_date \}\}</p>
-        <h2><a href="">\{\{ post.title \}\}</a></h2>
-        <p>\{\{ post.content \}\}</p>
+        <p>{{ post.published_date }}</p>
+        <h2><a href="">{{ post.title }}</a></h2>
+        <p>{{ post.content }}</p>
     </div>
-    \{\% endfor \%\}
+    {% endfor %}
 
 </body>
 </html>
 ```
+{% endraw %}
 <img>
 
 ### (별첨) css와 bootstrap으로 간단하게 꾸미기
@@ -130,10 +132,10 @@ h2{
 }
 ```
 또한 기존에 있던 `post_list.html`을 다음과 같이 수정합니다.
+{% raw %}
 ```html
 <!doctype html>
-<!-- 역슬래시(\)를 제거할 것 -->
-\{\% load static \%\}
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -141,9 +143,8 @@ h2{
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>DjangoGirls Tutorial</title>
-    <!-- 역슬래시(\)를 제거할 것 -->
-    <link rel="stylesheet" href="\{\% static 'bootstrap/css/bootstrap.css' \%\}">
-    <link rel="stylesheet" href="\{\% static 'css/blog.css' \%\}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
 </head>
 <body>
     <div class="header">
@@ -154,19 +155,19 @@ h2{
         </div>
     </div>
     <div class="container">
-        <!-- 역슬래시(\)를 제거할 것 -->
-        \{\% for post in posts \%\}
+        {% for post in posts %}
         <div class="post">
-            <p class="post-date">published: \{\{ post.published_date \}\}</p>
-            <h2 class="post-title"><a href="">\{\{ post.title \}\}</a></h2>
-            <p class="post-content">\{\{ post.content|linebreaksbr|truncatewords:30 \}\}</p>
+            <p class="post-date">published: {{ post.published_date }}</p>
+            <h2 class="post-title"><a href="">{{ post.title }}</a></h2>
+            <p class="post-content">{{ post.content|linebreaksbr|truncatewords:30 }}</p>
             <!--linebreaksbr : whitespace에서 pre-line과 같은 기능-->
             <!--truncatewords : 30 -> 30개의 단어만 출력. 길이에 대한건 CSS로 해야함-->
         </div>
-        \{\% endfor \%\}
+        {% endfor %}
     </div>
 </body>
 </html>
 ```
+{% endraw %}
 수정 후, 서버를 가동시키고 `localhost:8000/` 주소를 확인해보겠습니다.
 <img>
